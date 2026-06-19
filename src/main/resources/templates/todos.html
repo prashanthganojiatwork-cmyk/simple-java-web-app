@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO App</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <h1>TODO App</h1>
+        <p>Create, update, complete, and delete your TODOs.</p>
+    </header>
+
+    <section class="card">
+        <h2>Add TODO</h2>
+
+        <form action="/todos" method="post" class="todo-form">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input id="title" name="title" type="text" placeholder="Enter TODO title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Enter TODO description"></textarea>
+            </div>
+
+            <button type="submit" class="button primary">Add TODO</button>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>Your TODOs</h2>
+
+        <div th:if="${todos.isEmpty()}" class="empty-state">
+            No TODOs yet. Add your first one above.
+        </div>
+
+        <div th:each="todo : ${todos}" class="todo-item">
+            <div class="todo-content">
+                <h3 th:text="${todo.title}" th:classappend="${todo.completed} ? 'completed' : ''">
+                    TODO title
+                </h3>
+
+                <p th:text="${todo.description}" th:classappend="${todo.completed} ? 'completed' : ''">
+                    TODO description
+                </p>
+
+                <span class="status completed-status" th:if="${todo.completed}">
+                        Completed
+                    </span>
+
+                <span class="status pending-status" th:unless="${todo.completed}">
+                        Pending
+                    </span>
+            </div>
+
+            <div class="todo-actions">
+                <form th:action="@{/todos/{id}/toggle(id=${todo.id})}" method="post">
+                    <button type="submit" class="button minimal">
+                        <span th:text="${todo.completed} ? 'Undo' : 'Complete'">Complete</span>
+                    </button>
+                </form>
+
+                <a th:href="@{/todos/{id}/edit(id=${todo.id})}" class="button minimal">
+                    Edit
+                </a>
+
+                <form th:action="@{/todos/{id}/delete(id=${todo.id})}" method="post">
+                    <button type="submit" class="button minimal danger-minimal">Delete</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

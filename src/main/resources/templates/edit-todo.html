@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit TODO</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <h1>Edit TODO</h1>
+        <p>Update your TODO details.</p>
+    </header>
+
+    <section class="card">
+        <form th:action="@{/todos/{id}(id=${todo.id})}" method="post" class="todo-form">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input id="title" name="title" type="text" th:value="${todo.title}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" th:text="${todo.description}"></textarea>
+            </div>
+
+            <div class="checkbox-group">
+                <input id="completed" name="completed" type="checkbox" value="true" th:checked="${todo.completed}">
+                <label for="completed">Completed</label>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="button primary">Save Changes</button>
+                <a href="/todos" class="button secondary">Cancel</a>
+            </div>
+        </form>
+    </section>
+</div>
+</body>
+</html>
