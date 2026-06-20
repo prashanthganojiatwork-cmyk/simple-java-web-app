@@ -19,7 +19,7 @@ public class TodoService {
     public List<Todo> findAll() {
         return new ArrayList<>(todos.values())
                 .stream()
-                .sorted(Comparator.comparing(Todo::getId))
+                .sorted(Comparator.comparing(Todo::isCompleted).thenComparing(Todo::getId))
                 .toList();
     }
 
